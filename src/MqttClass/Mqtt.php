@@ -37,6 +37,8 @@ class Mqtt
     protected $host = null;
     protected $username = null;
     protected $cert_file = null;
+    protected $local_cert = null;
+    protected $local_pk = null;
     protected $password = null;
     protected $port = null;
     protected $debug = null;
@@ -49,10 +51,8 @@ class Mqtt
         $this->username  = config('mqtt.username');
         $this->password  = config('mqtt.password');
         $this->cert_file = config('mqtt.certfile');
-        #$this->local_cert = config('mqtt.localcert');
-        #$this->local_pk = config('mqtt.localpk');
-        $this->local_cert = '';
-        $this->local_pk = '';
+        $this->local_cert = config('mqtt.localcert');
+        $this->local_pk = config('mqtt.localpk');
         $this->port      = config('mqtt.port');
         $this->debug     = config('mqtt.debug');
         $this->qos       = config('mqtt.qos');
@@ -65,7 +65,7 @@ class Mqtt
     {
         $id = empty($client_id) ?  rand(0,999) : $client_id;
 
-        $client = new MqttService($this->host,$this->port, $id, $this->cert_file, $this->local_certlocalcert, $this->local_pk, $this->debug);
+        $client = new MqttService($this->host,$this->port, $id, $this->cert_file, $this->local_cert, $this->local_pk, $this->debug);
 
         $retain = empty($retain) ?  $this->retain : $retain;
 
@@ -85,7 +85,7 @@ class Mqtt
     {
         $id = empty($client_id) ?  rand(0,999) : $client_id;
 
-        $client = new MqttService($this->host,$this->port,$id, $this->cert_file, $this->debug);
+        $client = new MqttService($this->host,$this->port,$id, $this->cert_file, $this->local_cert, $this->local_pk, $this->debug);
 
         if ($client->connect(true, null, $this->username, $this->password))
         {
