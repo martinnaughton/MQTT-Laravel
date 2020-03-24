@@ -12,6 +12,8 @@ return [
     'password' => env('mqtt_password',''),
     'username' => env('mqtt_username',''),
     'certfile' => env('mqtt_cert_file',''),
+    'localcert' => env('mqtt_local_cert',''),
+    'localpk'  => env('mqtt_local_pk',''),
     'port'     => env('mqtt_port','1883'),
     'debug'    => env('mqtt_debug',false), //Optional Parameter to enable debugging set it to True
     'qos'      => env('mqtt_qos', 0), // set quality of service here

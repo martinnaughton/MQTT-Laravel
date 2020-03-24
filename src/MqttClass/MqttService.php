@@ -29,18 +29,22 @@ class MqttService
     private $username;			/* stores username */
     private $password;			/* stores password */
     public $cafile;
+    public $localCertFile;
+    public $localPKFile;
 
-    function __construct($address, $port, $clientid, $cafile = NULL, $debug){
+    function __construct($address, $port, $clientid, $cafile = NULL, $localCertFile = NULL, $localPKFile = NULL, $debug){
         $this->debug = $debug;
-        $this->broker($address, $port, $clientid, $cafile);
+        $this->broker($address, $port, $clientid, $cafile, $localCertFile, $localPKFile);
     }
 
     /* sets the broker details */
-    function broker($address, $port, $clientid, $cafile = NULL){
+    function broker($address, $port, $clientid, $cafile = NULL, $localCertFile = NULL, $localPKFile = NULL){
         $this->address = $address;
         $this->port = $port;
         $this->clientid = $clientid;
         $this->cafile = $cafile;
+        $this->localCertFile = $localCertFile;
+        $this->localPKFile = $localPKFile;
     }
 
     function connect_auto($clean = true, $will = NULL, $username = NULL, $password = NULL){
@@ -60,7 +64,9 @@ class MqttService
         if ($this->cafile) {
             $socketContext = stream_context_create(["ssl" => [
                 "verify_peer_name" => true,
-                "cafile" => $this->cafile
+                "cafile" => $this->cafile,
+                "local_cert" => $this->localCertFile,
+                "local_pk" => $this->localPKFile
             ]]);
             $this->socket = stream_socket_client("tls://" . $this->address . ":" . $this->port, $errno, $errstr, 60, STREAM_CLIENT_CONNECT, $socketContext);
         } else {
