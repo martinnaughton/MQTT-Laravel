@@ -49,8 +49,10 @@ class Mqtt
         $this->username  = config('mqtt.username');
         $this->password  = config('mqtt.password');
         $this->cert_file = config('mqtt.certfile');
-        $this->local_cert = config('mqtt.localcert');
-        $this->local_pk = config('mqtt.localpk');
+        #$this->local_cert = config('mqtt.localcert');
+        #$this->local_pk = config('mqtt.localpk');
+        $this->local_cert = '';
+        $this->local_pk = '';
         $this->port      = config('mqtt.port');
         $this->debug     = config('mqtt.debug');
         $this->qos       = config('mqtt.qos');
